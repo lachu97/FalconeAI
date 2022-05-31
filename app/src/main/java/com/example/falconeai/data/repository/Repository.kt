@@ -1,8 +1,6 @@
-package com.example.falconeai.data.repos
+package com.example.falconeai.data.repository
 
-import com.example.falconeai.data.models.auth
-import com.example.falconeai.data.models.planets
-import com.example.falconeai.data.models.vehicles
+import com.example.falconeai.data.models.*
 
 interface PlanetRepository {
     suspend fun getPlanets() : List<planets>
@@ -12,4 +10,7 @@ interface VehicleRepository {
 }
 interface TokenRepository{
     suspend fun getToken() : auth
+}
+interface FindFalconAPI {
+    suspend fun findFalcon(data : request) : response
 }

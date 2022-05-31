@@ -13,5 +13,5 @@ data class request(
 data class response(
     val planet_name: String,
     val status: String,
-    val error: String?
+    val error: String? = null
 )

@@ -1,5 +1,6 @@
 package com.example.falconeai.Di
 
+import com.example.falconeai.domain.RepoImpl.PlanetRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,5 +29,10 @@ object Providers {
                 requestTimeoutMillis = 5000L
             }
         }
+    }
+    @Provides
+    @Singleton
+    fun providePlanetRepo(client: HttpClient) : PlanetRepoImpl {
+        return PlanetRepoImpl(client)
     }
 }

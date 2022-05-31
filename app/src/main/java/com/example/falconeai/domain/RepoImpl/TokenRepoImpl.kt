@@ -2,7 +2,7 @@ package com.example.falconeai.domain.RepoImpl
 
 import com.example.falconeai.commons.APIendpoints
 import com.example.falconeai.data.models.auth
-import com.example.falconeai.data.repos.TokenRepository
+import com.example.falconeai.data.repository.TokenRepository
 import io.ktor.client.*
 import io.ktor.client.request.*
 
