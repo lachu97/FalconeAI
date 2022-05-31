@@ -6,10 +6,14 @@ import com.example.falconeai.data.models.response
 import com.example.falconeai.data.repository.FindFalconAPI
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 
 class FindfalconImpl(val client: HttpClient) : FindFalconAPI {
     override suspend fun findFalcon(data: request): response {
         return client.post(APIendpoints.FIND_FALCON_API) {
+            headers {
+                accept(ContentType.Application.Json)
+            }
             body = data
         }
     }

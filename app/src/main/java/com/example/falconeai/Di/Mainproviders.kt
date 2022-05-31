@@ -4,6 +4,9 @@ import com.example.falconeai.domain.RepoImpl.FindfalconImpl
 import com.example.falconeai.domain.RepoImpl.PlanetRepoImpl
 import com.example.falconeai.domain.RepoImpl.TokenRepoImpl
 import com.example.falconeai.domain.RepoImpl.VehicleRepoImpl
+import com.example.falconeai.domain.use_case.getTokenUseCase
+import com.example.falconeai.domain.use_case.planetUseCase
+import com.example.falconeai.domain.use_case.vehicleUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,5 +55,20 @@ object Providers {
     @Singleton
     fun provideFindFalcon(client: HttpClient) : FindfalconImpl {
         return FindfalconImpl(client = client)
+    }
+    @Provides
+    @Singleton
+    fun provideVehicleUseCase(vehicleRepoImpl: VehicleRepoImpl) : vehicleUseCase {
+        return vehicleUseCase(vehicleRepoImpl)
+    }
+    @Provides
+    @Singleton
+    fun providePlanetUseCase(planetRepoImpl: PlanetRepoImpl) : planetUseCase {
+        return planetUseCase(planetRepoImpl)
+    }
+    @Provides
+    @Singleton
+    fun provideTokenUseCase(tokenRepoImpl: TokenRepoImpl) : getTokenUseCase {
+        return getTokenUseCase(tokenRepoImpl)
     }
 }

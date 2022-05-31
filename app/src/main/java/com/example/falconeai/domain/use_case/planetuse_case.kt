@@ -9,9 +9,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.net.HttpRetryException
+import javax.inject.Inject
 
 
-class planetUseCase(
+class planetUseCase @Inject constructor(
     val planetRepoImpl: PlanetRepoImpl
 ) {
     operator fun invoke(): Flow<Resource<List<planets>>> = flow {

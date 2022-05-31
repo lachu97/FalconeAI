@@ -9,13 +9,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.net.HttpRetryException
+import javax.inject.Inject
 
-class getTokenUseCase (
+class getTokenUseCase @Inject constructor(
     val tokenrepo: TokenRepoImpl
 ) {
     operator fun invoke(): Flow<Resource<auth>> = flow {
         try {
-            emit(Resource.Loading<auth>())
+            emit(Resource.Loading<auth>(auth(token = "Loading")))
             delay(100L)
             val token = tokenrepo.getToken()
             emit(Resource.Success(data = token))

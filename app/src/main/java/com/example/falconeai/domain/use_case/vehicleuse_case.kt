@@ -9,8 +9,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.net.HttpRetryException
+import javax.inject.Inject
 
-class vehicleUseCase(
+class vehicleUseCase @Inject constructor(
     val vehicleRepoImpl: VehicleRepoImpl
 ){
     operator fun invoke() : Flow<Resource<List<vehicles>>> = flow {
