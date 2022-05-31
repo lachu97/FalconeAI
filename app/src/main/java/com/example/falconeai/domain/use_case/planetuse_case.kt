@@ -16,18 +16,18 @@ class planetUseCase(
 ) {
     operator fun invoke(): Flow<Resource<List<planets>>> = flow {
         try {
-            emit(Resource.Loading())
+            emit(Resource.Loading<List<planets>>())
             delay(100L)
             val planets = planetRepoImpl.getPlanets()
-            emit(Resource.Success(data = planets))
+            emit(Resource.Success<List<planets>>(data = planets))
         } catch (e: Exception) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error<List<planets>>(e.message))
         } catch (e: NoTransformationFoundException) {
-            emit(Resource.Error(e.localizedMessage))
+            emit(Resource.Error<List<planets>>(e.localizedMessage))
         } catch (e: HttpRetryException) {
-            emit(Resource.Error(e.localizedMessage))
-        } catch (e : NetworkErrorException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error<List<planets>>(e.localizedMessage))
+        } catch (e: NetworkErrorException) {
+            emit(Resource.Error<List<planets>>(e.message))
         }
     }
 }

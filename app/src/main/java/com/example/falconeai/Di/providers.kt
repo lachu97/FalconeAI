@@ -1,6 +1,9 @@
 package com.example.falconeai.Di
 
+import com.example.falconeai.domain.RepoImpl.FindfalconImpl
 import com.example.falconeai.domain.RepoImpl.PlanetRepoImpl
+import com.example.falconeai.domain.RepoImpl.TokenRepoImpl
+import com.example.falconeai.domain.RepoImpl.VehicleRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,5 +37,20 @@ object Providers {
     @Singleton
     fun providePlanetRepo(client: HttpClient) : PlanetRepoImpl {
         return PlanetRepoImpl(client)
+    }
+    @Provides
+    @Singleton
+    fun provideVehicleRepo(client: HttpClient) : VehicleRepoImpl {
+        return VehicleRepoImpl(client = client)
+    }
+    @Provides
+    @Singleton
+    fun provideTokenRepo(client: HttpClient) : TokenRepoImpl {
+        return TokenRepoImpl(client = client)
+    }
+    @Provides
+    @Singleton
+    fun provideFindFalcon(client: HttpClient) : FindfalconImpl {
+        return FindfalconImpl(client = client)
     }
 }

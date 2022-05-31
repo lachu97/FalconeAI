@@ -15,18 +15,18 @@ class vehicleUseCase(
 ){
     operator fun invoke() : Flow<Resource<List<vehicles>>> = flow {
         try {
-            emit(Resource.Loading())
+            emit(Resource.Loading<List<vehicles>>())
             delay(100L)
             val vehicles = vehicleRepoImpl.getVehicles()
-            emit(Resource.Success(data = vehicles))
+            emit(Resource.Success<List<vehicles>>(data = vehicles))
         }catch (e:Exception) {
-            emit(Resource.Error(e.localizedMessage))
-        }catch (e: NoTransformationFoundException) {
-            emit(Resource.Error(e.localizedMessage))
+            emit(Resource.Error<List<vehicles>>(e.localizedMessage))
+        } catch (e: NoTransformationFoundException) {
+            emit(Resource.Error<List<vehicles>>(e.localizedMessage))
         } catch (e: HttpRetryException) {
-            emit(Resource.Error(e.localizedMessage))
-        } catch (e : NetworkErrorException) {
-            emit(Resource.Error(e.message))
+            emit(Resource.Error<List<vehicles>>(e.localizedMessage))
+        } catch (e: NetworkErrorException) {
+            emit(Resource.Error<List<vehicles>>(e.message))
         }
 
     }
