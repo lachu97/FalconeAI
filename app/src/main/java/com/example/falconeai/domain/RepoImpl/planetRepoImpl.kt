@@ -5,9 +5,14 @@ import com.example.falconeai.data.models.planets
 import com.example.falconeai.data.repository.PlanetRepository
 import io.ktor.client.*
 import io.ktor.client.request.*
+import io.ktor.http.*
 
 class PlanetRepoImpl(val client: HttpClient) : PlanetRepository {
     override suspend fun getPlanets(): List<planets> {
-        return client.get(APIendpoints.PLANET_API)
+        return client.get(APIendpoints.PLANET_API){
+            headers {
+                accept(ContentType.Application.Json)
+            }
+        }
     }
 }
