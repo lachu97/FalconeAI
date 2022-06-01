@@ -22,9 +22,6 @@ val findFalconUseCase: findFalconUseCase
 ) : ViewModel() {
     private val _token = mutableStateOf("")
     val tokenValue : State<String> = _token
-    init {
-        getToken()
-    }
     fun getToken() {
         tokenUseCase().onEach {
             when(it) {

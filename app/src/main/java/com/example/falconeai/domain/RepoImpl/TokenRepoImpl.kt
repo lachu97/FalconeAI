@@ -13,7 +13,6 @@ class TokenRepoImpl(val client: HttpClient) : TokenRepository {
             headers {
                accept(ContentType.Application.Json)
             }
-            body = emptyList<Any>()
         }
     }
 }

@@ -10,17 +10,18 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.falconeai.presentation.viewmodels.ScreenViewModel
 import com.example.falconeai.ui.theme.FalconeAITheme
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    val viewModel by viewModels<ScreenViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        val myviewmodel by viewModels<ScreenViewModel>()
         super.onCreate(savedInstanceState)
         setContent {
             FalconeAITheme {
@@ -29,10 +30,16 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    val token = viewModel.tokenValue
-                    Log.i("MainActivity","Token value =${token}")
+                    val tok = produceState(initialValue = "Empty Token"
+                        , producer = {
+                            myviewmodel.getToken()
+                            value = myviewmodel.tokenValue.value
+                        }
+                    )
+                    val token = myviewmodel.tokenValue
+                    Log.i("MainActivity","Token value =${tok.value}")
                     Log.i("MainActivity","Token value =${token.value}")
-                    Greeting(token.value)
+                    Greeting(tok.value)
                 }
             }
         }
