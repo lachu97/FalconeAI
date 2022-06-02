@@ -15,6 +15,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.falconeai.presentation.viewmodels.ScreenViewModel
@@ -36,20 +37,16 @@ class MainActivity : ComponentActivity() {
                 ) {
 
                     val planets = myviewmodel.planet.value
-                    planets.let {
-                        it.resultList.forEach {
-                            Log.i("MainActivity","Pkanet name =${it.name}")
-                            Log.i("MainActivity","Distance =${it.distance}")
-                        }
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                        , verticalArrangement = Arrangement.spacedBy(5.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
+                    val vehicles = myviewmodel.vehicle.value
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize(), verticalArrangement = Arrangement.spacedBy(5.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        planets.let {
                             LazyColumn(
                                 modifier = Modifier
-                                    .fillMaxSize()
+                                    .fillMaxWidth()
                             ) {
                                 itemsIndexed(it.resultList) { _, plt ->
                                     Text(text = plt.name)
@@ -59,6 +56,31 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+
+                        Divider(thickness = 4.dp, color = Color.Red)
+                        vehicles.let {
+                            it.resultList.forEach {
+                                Log.i("Main","Vehivle Name =${it.name}")
+                                Log.i("Main","Vehivle Speed =${it.speed}")
+                                Log.i("Main","Vehivle Distance =${it.max_distance}")
+                            }
+                            LazyColumn(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            ) {
+                                itemsIndexed(it.resultList) { _, vhl ->
+                                    Text(text = vhl.name)
+                                    Spacer(modifier = Modifier.padding(5.dp))
+                                    Text(text = vhl.max_distance.toString())
+                                    Spacer(modifier = Modifier.padding(5.dp))
+                                    Text(text = vhl.total_no.toString())
+                                    Spacer(modifier = Modifier.padding(5.dp))
+                                    Text(text = vhl.speed.toString())
+                                    Divider()
+                                }
+                            }
+                        }
+
                     }
 
 
