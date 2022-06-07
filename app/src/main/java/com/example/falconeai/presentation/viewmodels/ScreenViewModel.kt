@@ -46,8 +46,10 @@ class ScreenViewModel @Inject constructor(
     )
 
     init {
-        getPlanets()
         getToken()
+
+        getPlanets()
+
         getVehicles()
 
     }

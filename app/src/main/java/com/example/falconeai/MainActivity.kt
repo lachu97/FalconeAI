@@ -8,10 +8,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +40,7 @@ class MainActivity : ComponentActivity() {
                     }
                     Column(
                         modifier = Modifier
-                            .fillMaxSize(), verticalArrangement = Arrangement.spacedBy(5.dp),
+                            .fillMaxSize(), verticalArrangement = Arrangement.spacedBy(2.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         planets.let {
@@ -61,6 +58,21 @@ class MainActivity : ComponentActivity() {
                         }
 
                         Divider(thickness = 4.dp, color = Color.Red)
+                        Button(onClick = {
+                            val vehicleName = vehicles.resultList.shuffled().take(4).map {
+                                it.name
+                            }
+                            val planetNames = planets.resultList.shuffled().take(4).map {
+                                it.name
+                            }
+                            val zipped = planetNames.zip(vehicleName)
+                            Log.i("MainActivity","names = ${vehicleName}")
+                            Log.i("MainActivity","Planet name = ${planetNames}")
+                            Log.i("MainActivity","Zipped Value = ${zipped}")
+
+                        }) {
+                            Text(text = "Click To Post")
+                        }
                         vehicles.let {
                             it.resultList.forEach {
                                 Log.i("Main","Vehivle Name =${it.name}")
@@ -83,6 +95,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+
 
                     }
 
