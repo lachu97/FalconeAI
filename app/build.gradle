@@ -68,7 +68,8 @@ dependencies {
     implementation("io.ktor:ktor-client-serialization:$ktor_version")
     implementation("io.ktor:ktor-client-gson:$ktor_version")
     implementation("io.ktor:ktor-client-logging:$ktor_version")
-    //Hilt
+
+
     //Hilt
     def lifecycle = "2.3.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle}"

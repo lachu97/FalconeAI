@@ -10,9 +10,7 @@ import io.ktor.http.*
 class TokenRepoImpl(val client: HttpClient) : TokenRepository {
     override suspend fun getToken(): auth {
         return client.post(APIendpoints.GET_TOKEN_API) {
-            headers {
-               accept(ContentType.Application.Json)
-            }
+            contentType(ContentType.Application.Json)
         }
     }
 }

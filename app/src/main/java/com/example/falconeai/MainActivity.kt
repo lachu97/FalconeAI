@@ -35,9 +35,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-
+                    val token = myviewmodel.tokenValue.value
                     val planets = myviewmodel.planet.value
                     val vehicles = myviewmodel.vehicle.value
+                    token.let {
+                        Log.i("MainActivity","Token value = ${it}")
+                    }
                     Column(
                         modifier = Modifier
                             .fillMaxSize(), verticalArrangement = Arrangement.spacedBy(5.dp),
