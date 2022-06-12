@@ -32,7 +32,7 @@ object Providers {
                 level = LogLevel.BODY
             }
             install(HttpTimeout){
-                requestTimeoutMillis = 5000L
+                requestTimeoutMillis = 10000L
             }
         }
     }
