@@ -114,28 +114,28 @@ class MainActivity : ComponentActivity() {
                         }) {
                             Text(text = "Click To Post")
                         }
-                        vehicles.let {
-                            it.resultList.forEach {
-                                Log.i("Main","Vehivle Name =${it.name}")
-                                Log.i("Main","Vehivle Speed =${it.speed}")
-                                Log.i("Main","Vehivle Distance =${it.max_distance}")
-                            }
-                            LazyColumn(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            ) {
-                                itemsIndexed(it.resultList) { _, vhl ->
-                                    Text(text = vhl.name)
-                                    Spacer(modifier = Modifier.padding(5.dp))
-                                    Text(text = vhl.max_distance.toString())
-                                    Spacer(modifier = Modifier.padding(5.dp))
-                                    Text(text = vhl.total_no.toString())
-                                    Spacer(modifier = Modifier.padding(5.dp))
-                                    Text(text = vhl.speed.toString())
-                                    Divider()
-                                }
-                            }
-                        }
+//                        vehicles.let {
+//                            it.resultList.forEach {
+//                                Log.i("Main","Vehivle Name =${it.name}")
+//                                Log.i("Main","Vehivle Speed =${it.speed}")
+//                                Log.i("Main","Vehivle Distance =${it.max_distance}")
+//                            }
+//                            LazyColumn(
+//                                modifier = Modifier
+//                                    .fillMaxWidth()
+//                            ) {
+//                                itemsIndexed(it.resultList) { _, vhl ->
+//                                    Text(text = vhl.name)
+//                                    Spacer(modifier = Modifier.padding(5.dp))
+//                                    Text(text = vhl.max_distance.toString())
+//                                    Spacer(modifier = Modifier.padding(5.dp))
+//                                    Text(text = vhl.total_no.toString())
+//                                    Spacer(modifier = Modifier.padding(5.dp))
+//                                    Text(text = vhl.speed.toString())
+//                                    Divider()
+//                                }
+//                            }
+//                        }
 
 
                     }
