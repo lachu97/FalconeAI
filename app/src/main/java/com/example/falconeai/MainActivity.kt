@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.example.falconeai.cache.TokenStorage
 import com.example.falconeai.data.models.vehicles
+import com.example.falconeai.presentation.Uiviews.DetailCard
 import com.example.falconeai.presentation.viewmodels.ScreenViewModel
 import com.example.falconeai.ui.theme.FalconeAITheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     var dropstate by remember {
-                        mutableStateOf(false)
+                        mutableStateOf(true)
                     }
                     var tokenvalue by rememberSaveable{
                         mutableStateOf("")
@@ -55,7 +56,7 @@ class MainActivity : ComponentActivity() {
                         mutableStateOf(false)
                     }
                     var listy by remember {
-                        mutableStateOf(listOf<vehicles>())
+                        mutableStateOf(emptyList<vehicles>())
                     }
                     val token = myviewmodel.tokenValue.value
                     val planets = myviewmodel.planet.value
@@ -72,6 +73,11 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
+                        LazyColumn( modifier= Modifier.fillMaxWidth().padding(5.dp)){
+                            itemsIndexed(planets.resultList){ _,plt->
+                                DetailCard(title = plt.name,vehicles.resultList,plt.distance)
+                            }
+                        }
                         AnimatedVisibility(visible = animate) {
                             LazyColumn{
                                 itemsIndexed(listy){ _,vau ->
@@ -88,7 +94,7 @@ class MainActivity : ComponentActivity() {
                             }
                             animate = !animate
                             listy = vehicles.resultList.filter {
-                                it.max_distance >= planets.resultList.get(2).distance
+                                it.max_distance >= planets.resultList[2].distance
                             }
                             val zipped = planetNames.zip(vehicleName)
                             Log.i("MainActivity","names = ${vehicleName}")
