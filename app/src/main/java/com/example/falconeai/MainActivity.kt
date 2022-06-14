@@ -39,6 +39,13 @@ class MainActivity : ComponentActivity() {
         val myviewmodel by viewModels<ScreenViewModel>()
         super.onCreate(savedInstanceState)
         val tokenDB = TokenStorage(this)
+        val destination = listOf(
+            "Destination 1",
+            "Destination 2",
+            "Destination 3",
+            "Destination 4",
+        )
+
         setContent {
             FalconeAITheme {
                 // A surface container using the 'background' color from the theme
