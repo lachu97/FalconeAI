@@ -10,6 +10,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.example.falconeai.cache.TokenStorage
 import com.example.falconeai.data.models.vehicles
+import com.example.falconeai.presentation.Uiviews.DestinationCard
 import com.example.falconeai.presentation.Uiviews.DetailCard
 import com.example.falconeai.presentation.viewmodels.ScreenViewModel
 import com.example.falconeai.ui.theme.FalconeAITheme
@@ -80,9 +82,16 @@ class MainActivity : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
-                        LazyColumn( modifier= Modifier.fillMaxWidth().padding(5.dp)){
-                            itemsIndexed(planets.resultList){ _,plt->
-                                DetailCard(title = plt.name,vehicles.resultList,plt.distance)
+//                        LazyColumn( modifier= Modifier.fillMaxWidth().padding(5.dp)){
+//                            itemsIndexed(planets.resultList){ _,plt->
+//                                DetailCard(title = plt.name,vehicles.resultList,plt.distance)
+//                            }
+//                        }
+                        LazyColumn( modifier= Modifier.fillMaxWidth()){
+                            items(destination){ dst->
+                                DestinationCard(title = dst,
+                                    planet = planets.resultList,
+                                    vehicle = vehicles.resultList)
                             }
                         }
                         AnimatedVisibility(visible = animate) {

@@ -126,12 +126,19 @@ fun DetailCard(
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun DestinationCard(
     title: String,
     planet : List<planets>,
     vehicle:List<vehicles>
 ) {
+    var observer by remember {
+        mutableStateOf("")
+    }
+    var vhlobserver by remember {
+        mutableStateOf("")
+    }
     var expandedState by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
         targetValue = if (expandedState) 180f else 0f
@@ -181,12 +188,69 @@ fun DestinationCard(
                     )
                 }
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            AnimatedVisibility(visible = expandedState) {
 
-                Divider(thickness = 1.dp, color = Color.Black.copy(0.3f))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column( modifier= Modifier.weight(1f)) {
+                        planet.forEachIndexed { index, plt ->
+                            Row {
+
+                                RadioButton(
+                                    selected = observer == plt.name,
+                                    onClick = {
+                                        observer = plt.name
+                                        Log.i("Main", "Selected Value =${observer} --> ${title}")
+                                    },
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = Color.Magenta.copy(
+                                            0.6f
+                                        )
+                                    )
+                                )
+                                Spacer(modifier = Modifier.padding(2.dp))
+                                Text(
+                                    text = plt.name,
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontSize = 18.sp
+                                )
+                            }
+                        }
+                    }
+                    Column( modifier= Modifier.weight(1f)) {
+                        vehicle.forEachIndexed { index, plt ->
+                            Row {
+
+                                RadioButton(
+                                    selected = vhlobserver == plt.name,
+                                    onClick = {
+                                        vhlobserver = plt.name
+                                        Log.i("Main", "Selected Value =${observer} --> ${title}")
+                                    }, enabled = true,
+                                    colors = RadioButtonDefaults.colors(
+                                        selectedColor = Color.Magenta.copy(
+                                            0.6f
+                                        )
+                                    )
+                                )
+                                Spacer(modifier = Modifier.padding(10.dp))
+                                Text(
+                                    text = plt.name,
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontSize = 18.sp
+                                )
+                                Spacer(modifier = Modifier.padding(2.dp))
+                                Text(
+                                    text = plt.max_distance.toString(),
+                                    fontFamily = FontFamily.SansSerif,
+                                    fontSize = 12.sp
+                                )
+                            }
+                        }
+                    }
+                }
             }
         }
     }
