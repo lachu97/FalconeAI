@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.falconeai.data.models.planets
 import com.example.falconeai.data.models.vehicles
+import com.example.falconeai.presentation.viewmodels.ScreenViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -130,22 +131,28 @@ fun DetailCard(
 @Composable
 fun DestinationCard(
     title: String,
-    planet : List<planets>,
-    vehicle:List<vehicles>
+    planet: List<planets>,
+    vehicle: List<vehicles>,
+    vm: ScreenViewModel
 ) {
+    val mytextcolor = Color.Black
     var observer by remember {
-        mutableStateOf("")
+        mutableStateOf(planets("",-1))
     }
     var vhlobserver by remember {
         mutableStateOf("")
     }
+    var vhlstate by remember {
+        mutableStateOf(false)
+    }
+    val selectedPlanet = vm.selectPlanet.value
     var expandedState by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
         targetValue = if (expandedState) 180f else 0f
     )
     Card(
         modifier = Modifier
-            .padding(1.dp)
+            .padding(10.dp)
             .clickable {
                 expandedState = !expandedState
             }
@@ -159,10 +166,14 @@ fun DestinationCard(
         shape = RoundedCornerShape(15.dp),
         border = BorderStroke(1.dp, Color.Black.copy(0.4f)),
         elevation = 12.dp,
-        backgroundColor = Color.Gray.copy(0.3f)
+        backgroundColor = Color.LightGray,
+        contentColor = Color.LightGray.copy(0.3f)
     ) {
-        Column(modifier = Modifier.fillMaxSize()) {
-
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(5.dp)
+        ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -171,9 +182,10 @@ fun DestinationCard(
                     text = title, modifier = Modifier
                         .padding(5.dp)
                         .weight(5f),
-                    fontSize = 24.sp,
+                    fontSize = 22.sp,
                     fontFamily = FontFamily.SansSerif,
-                    fontStyle = FontStyle.Normal
+                    fontStyle = FontStyle.Normal,
+                    color = mytextcolor
                 )
                 IconButton(
                     onClick = { expandedState = !expandedState },
@@ -185,24 +197,31 @@ fun DestinationCard(
                     Icon(
                         Icons.Default.ArrowDropDown,
                         contentDescription = null,
+                        tint = mytextcolor
+
                     )
                 }
             }
             AnimatedVisibility(visible = expandedState) {
-
+                Divider(thickness = 1.dp, color = Color.Black.copy(0.5f))
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Column( modifier= Modifier.weight(1f)) {
+                    Column(modifier = Modifier.weight(1f)) {
                         planet.forEachIndexed { index, plt ->
                             Row {
 
                                 RadioButton(
-                                    selected = observer == plt.name,
+                                    selected = observer.name == plt.name,
                                     onClick = {
-                                        observer = plt.name
+                                        observer = plt
+                                        //  vhlstate = !vhlstate
+                                        vm.assignPlanet(observer)
                                         Log.i("Main", "Selected Value =${observer} --> ${title}")
+                                        Log.i("Main", "Selected Planet Value =${selectedPlanet.name}")
                                     },
                                     colors = RadioButtonDefaults.colors(
                                         selectedColor = Color.Magenta.copy(
@@ -214,12 +233,13 @@ fun DestinationCard(
                                 Text(
                                     text = plt.name,
                                     fontFamily = FontFamily.SansSerif,
-                                    fontSize = 18.sp
+                                    fontSize = 18.sp,
+                                    color = mytextcolor
                                 )
                             }
                         }
                     }
-                    Column( modifier= Modifier.weight(1f)) {
+                    Column(modifier = Modifier.weight(1f)) {
                         vehicle.forEachIndexed { index, plt ->
                             Row {
 
@@ -227,8 +247,13 @@ fun DestinationCard(
                                     selected = vhlobserver == plt.name,
                                     onClick = {
                                         vhlobserver = plt.name
-                                        Log.i("Main", "Selected Value =${observer} --> ${title}")
-                                    }, enabled = true,
+                                        Log.i(
+                                            "Main",
+                                            "Selected Value =${observer} --> ${title}"
+                                        )
+
+                                    },
+                                    enabled = plt.max_distance >= selectedPlanet.distance,
                                     colors = RadioButtonDefaults.colors(
                                         selectedColor = Color.Magenta.copy(
                                             0.6f
@@ -239,13 +264,15 @@ fun DestinationCard(
                                 Text(
                                     text = plt.name,
                                     fontFamily = FontFamily.SansSerif,
-                                    fontSize = 18.sp
+                                    fontSize = 18.sp,
+                                    color = mytextcolor
                                 )
                                 Spacer(modifier = Modifier.padding(2.dp))
                                 Text(
                                     text = plt.max_distance.toString(),
                                     fontFamily = FontFamily.SansSerif,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    color = mytextcolor
                                 )
                             }
                         }

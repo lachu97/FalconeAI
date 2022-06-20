@@ -7,29 +7,30 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.example.falconeai.cache.TokenStorage
 import com.example.falconeai.data.models.vehicles
 import com.example.falconeai.presentation.Uiviews.DestinationCard
-import com.example.falconeai.presentation.Uiviews.DetailCard
 import com.example.falconeai.presentation.viewmodels.ScreenViewModel
 import com.example.falconeai.ui.theme.FalconeAITheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -58,10 +59,10 @@ class MainActivity : ComponentActivity() {
                     var dropstate by remember {
                         mutableStateOf(true)
                     }
-                    var tokenvalue by rememberSaveable{
+                    var tokenvalue by rememberSaveable {
                         mutableStateOf("")
                     }
-                    var animate by remember{
+                    var animate by remember {
                         mutableStateOf(false)
                     }
                     var listy by remember {
@@ -71,7 +72,7 @@ class MainActivity : ComponentActivity() {
                     val planets = myviewmodel.planet.value
                     val vehicles = myviewmodel.vehicle.value
                     token.let {
-                        Log.i("MainActivity","Token value = ${it}")
+                        Log.i("MainActivity", "Token value = ${it}")
                         lifecycleScope.launch {
                             tokenDB.storeToken(it)
                         }
@@ -87,16 +88,19 @@ class MainActivity : ComponentActivity() {
 //                                DetailCard(title = plt.name,vehicles.resultList,plt.distance)
 //                            }
 //                        }
-                        LazyColumn( modifier= Modifier.fillMaxWidth()){
-                            items(destination){ dst->
-                                DestinationCard(title = dst,
+                        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                            items(destination) { dst ->
+                                DestinationCard(
+                                    title = dst,
                                     planet = planets.resultList,
-                                    vehicle = vehicles.resultList)
+                                    vehicle = vehicles.resultList,
+                                    vm = myviewmodel
+                                )
                             }
                         }
                         AnimatedVisibility(visible = animate) {
-                            LazyColumn{
-                                itemsIndexed(listy){ _,vau ->
+                            LazyColumn {
+                                itemsIndexed(listy) { _, vau ->
                                     Text(text = "Names =${vau.name}")
                                 }
                             }
@@ -113,19 +117,19 @@ class MainActivity : ComponentActivity() {
                                 it.max_distance >= planets.resultList[2].distance
                             }
                             val zipped = planetNames.zip(vehicleName)
-                            Log.i("MainActivity","names = ${vehicleName}")
-                            Log.i("MainActivity","Planet name = ${planetNames}+planet distance")
-                            Log.i("MainActivity","Zipped Value = ${zipped}")
+                            Log.i("MainActivity", "names = ${vehicleName}")
+                            Log.i("MainActivity", "Planet name = ${planetNames}+planet distance")
+                            Log.i("MainActivity", "Zipped Value = ${zipped}")
                             lifecycleScope.launch {
-                                tokenDB.getToken.collectLatest { token->
+                                tokenDB.getToken.collectLatest { token ->
                                     tokenvalue = token
 
                                 }
                             }
                             listy.forEach {
-                                Log.i("Main","values = ${it.name}")
+                                Log.i("Main", "values = ${it.name}")
                             }
-                            Log.i("Main","Value of Token In DataStore in Savable=${token}")
+                            Log.i("Main", "Value of Token In DataStore in Savable=${token}")
 
                         }) {
                             Text(text = "Click To Post")

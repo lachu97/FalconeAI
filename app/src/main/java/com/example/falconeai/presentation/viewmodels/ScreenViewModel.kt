@@ -33,6 +33,21 @@ class ScreenViewModel @Inject constructor(
     private var _vehicles = mutableStateOf(vehicleState())
     val vehicle: State<vehicleState> = _vehicles
 
+    private var _counter = mutableStateOf(0)
+    val counter = _counter.value
+
+    private var _selectedPlanet = mutableStateOf(planets("",0))
+    val selectPlanet:State<planets> = _selectedPlanet
+
+    fun assignPlanet(plt: planets) {
+        _selectedPlanet.value = plt
+        Log.i("View","Planet Distance = ${plt.name} --> ${plt.distance}")
+    }
+    fun increaseCount(){
+        _counter.value+1
+    }
+
+
     data class planetState(
         var resultList: List<planets> = emptyList(),
         var Error: String? = null,
