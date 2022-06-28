@@ -56,17 +56,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    var dropstate by remember {
-                        mutableStateOf(true)
-                    }
                     var tokenvalue by rememberSaveable {
                         mutableStateOf("")
-                    }
-                    var animate by remember {
-                        mutableStateOf(false)
-                    }
-                    var listy by remember {
-                        mutableStateOf(emptyList<vehicles>())
                     }
                     val token = myviewmodel.tokenValue.value
                     val planets = myviewmodel.planet.value
@@ -98,36 +89,21 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
                         }
-                        AnimatedVisibility(visible = animate) {
-                            LazyColumn {
-                                itemsIndexed(listy) { _, vau ->
-                                    Text(text = "Names =${vau.name}")
-                                }
-                            }
-                        }
+//                        AnimatedVisibility(visible = animate) {
+//                            LazyColumn {
+//                                itemsIndexed(listy) { _, vau ->
+//                                    Text(text = "Names =${vau.name}")
+//                                }
+//                            }
+//                        }
                         Button(onClick = {
-                            val vehicleName = vehicles.resultList.shuffled().take(4).map {
-                                it.name
-                            }
-                            val planetNames = planets.resultList.shuffled().take(4).map {
-                                it.name
-                            }
-                            animate = !animate
-                            listy = vehicles.resultList.filter {
-                                it.max_distance >= planets.resultList[2].distance
-                            }
-                            val zipped = planetNames.zip(vehicleName)
-                            Log.i("MainActivity", "names = ${vehicleName}")
-                            Log.i("MainActivity", "Planet name = ${planetNames}+planet distance")
-                            Log.i("MainActivity", "Zipped Value = ${zipped}")
+
+
                             lifecycleScope.launch {
                                 tokenDB.getToken.collectLatest { token ->
                                     tokenvalue = token
 
                                 }
-                            }
-                            listy.forEach {
-                                Log.i("Main", "values = ${it.name}")
                             }
                             Log.i("Main", "Value of Token In DataStore in Savable=${token}")
 

@@ -39,15 +39,13 @@ class ScreenViewModel @Inject constructor(
     private var _selectedPlanet = mutableStateOf(planets("",0))
     val selectPlanet:State<planets> = _selectedPlanet
 
+    var listPairs = mutableListOf(Pair<String,String>("",""))
+
     fun assignPlanet(plt: planets) {
         _selectedPlanet.value = plt
         Log.i("View","Planet Distance = ${plt.name} --> ${plt.distance}")
     }
-    fun increaseCount(){
-        _counter.value+1
-    }
-
-
+    
     data class planetState(
         var resultList: List<planets> = emptyList(),
         var Error: String? = null,
@@ -60,6 +58,13 @@ class ScreenViewModel @Inject constructor(
         var loading: Boolean = false
     )
 
+    fun addPairs(pair:Pair<String,String>){
+        listPairs.add(pair)
+        listPairs.forEach {
+            Log.i("ViewModel","Pair Value in ViewModels->${it.first} ---> ${it.second}")
+        }
+
+    }
     init {
         getToken()
 

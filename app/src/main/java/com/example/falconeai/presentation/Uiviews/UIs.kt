@@ -145,6 +145,12 @@ fun DestinationCard(
     var vhlstate by remember {
         mutableStateOf(false)
     }
+    var dpair by remember{
+        mutableStateOf(Pair("",""))
+    }
+    var listPairs by remember {
+        mutableStateOf(listOf<Pair<String,String>>())
+    }
     val selectedPlanet = vm.selectPlanet.value
     var expandedState by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(
@@ -219,6 +225,9 @@ fun DestinationCard(
                                     onClick = {
                                         observer = plt
                                         //  vhlstate = !vhlstate
+                                        dpair = dpair.copy(
+                                            first = plt.name
+                                        )
                                         vm.assignPlanet(observer)
                                         Log.i("Main", "Selected Value =${observer} --> ${title}")
                                         Log.i("Main", "Selected Planet Value =${selectedPlanet.name}")
@@ -247,11 +256,19 @@ fun DestinationCard(
                                     selected = vhlobserver == plt.name,
                                     onClick = {
                                         vhlobserver = plt.name
+                                        dpair = dpair.copy(
+                                            second = plt.name
+                                        )
+                                        val (first,second) = dpair
                                         Log.i(
                                             "Main",
                                             "Selected Value =${observer} --> ${title}"
                                         )
-
+                                        Log.i(
+                                            "Main",
+                                            "Pairs Value(f,s) =${first} --> ${second}"
+                                        )
+                                        vm.addPairs(dpair)
                                     },
                                     enabled = plt.max_distance >= selectedPlanet.distance,
                                     colors = RadioButtonDefaults.colors(
